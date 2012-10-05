@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contract mz-version='1.0'>
+    
+    <class-name>HttpdData</class-name>  
+    <package-name>com.digitalroute.wfc.http</package-name>
+    <storable-id>dr.HttpdData</storable-id>
+
+   <delegate id='com.digitalroute.wfc.http.HttpdDataDelegate'>
+        <tooltip-delegate/>
+    </delegate>
+
+    <section id='HTTPD'>
+
+        <field id='receivers' hidden='true' active='false'>
+            <title>Receivers</title>
+            <name>Receivers</name>
+            <description>Receivers</description>
+            <type><primitive-type name='int'/></type>
+            <validation>
+                <validate minValue='1' maxValue='128' message='Receivers must be between 1 and 128'/>
+            </validation>
+        </field>
+
+        <field id='useSSL' level='template'>
+            <title>Use SSL</title>
+            <name>Use SSL</name>
+            <description>Use SSL</description>
+            <type><primitive-type name='boolean'/></type>
+        </field>
+
+        <field id='keystore' active='false'>
+            <title>Keystore</title>
+            <name>Keystore</name>
+            <description>Keystore</description>
+            <type><object-type name='java.lang.String'/></type>
+        </field>
+        
+        <field id='passphrase' active='false'>
+            <title>Password</title>
+            <name>Passphrase</name>
+            <description>Passphrase</description>
+            <type><password-type/></type>
+            <default-value>new DRPassword("")</default-value>
+        </field>
+
+        <field id='host'>
+            <title>Local Address</title>
+            <name>Host</name>
+            <description>Host</description>
+            <type><object-type name='java.lang.String'/></type>
+        </field>
+        
+        <field id='port'>
+            <title>Port</title>
+            <name>Port</name>
+            <description>Port</description>
+            <type><primitive-type name='int'/></type>
+            <default-value>80</default-value>
+            <validation>
+                <validate minValue='0' maxValue='65535' message='Port is not valid'/>
+            </validation>
+        </field>
+
+
+        <field id='udrType' level='template'>
+            <title>Content Type</title>
+            <name>UDR Type</name>
+            <description>UDR Type</description>
+            <type><drstorable-type name='com.digitalroute.devkit.drudr.DRTypeInfo'/></type>
+        </field>
+
+        <field id='maxBacklog' hidden='true' active='false'>
+            <title>Backlog</title>
+            <name>Max backlog</name>
+            <description>Max backlog</description>
+            <type><primitive-type name='int'/></type>
+            <validation>
+                <validate minValue='1' message='Backlog must be at least 1.'/>
+            </validation>
+        </field>
+
+        <field id='clientTimeout'>
+            <title>Client timeout</title>
+            <name>Client timeout</name>
+            <description>Client timeout</description>
+            <type><primitive-type name='int'/></type>
+            <validation>
+                <validate minValue='0' message='Client timeout must be at least 1 or 0 for indefinitely.'/>
+            </validation>
+        </field>
+
+        <field id='maxProcessingTime'>
+            <title>Server timeout</title>
+            <name>Processing time</name>
+            <description>Processing time</description>
+            <type><primitive-type name='int'/></type>
+            <validation>
+                <validate minValue='0' message='Server timeout must be at least 1 or 0 for indefinitely.'/>
+            </validation>
+        </field>
+
+        <field id='characterEncoding'>
+            <title>Character encoding</title>
+            <name>Character encoding</name>
+            <description>Character encoding</description>
+            <type><object-type name='java.lang.String'/></type>
+        </field>
+
+    </section>
+    
+</contract>

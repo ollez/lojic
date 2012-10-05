@@ -1,0 +1,66 @@
+<project name="LOJIC" default="compile" basedir=".">
+
+  <import file="../etc/build_common.xml" />
+  <property name="lojic_jar" location="${lib}/lojic.jar" />
+  <property name="package.name" value="LOJIC" />
+  
+	<path id="lojic.class.path">
+		<path refid="package.class.path" />
+		<pathelement path="${server_jar}" />
+		<pathelement path="${client_jar}" />
+		<pathelement path="${picostart_jar}" />
+	</path>
+
+  <path id="findbugs.class.path">
+    <path refid="http.class.path"/>
+    <pathelement path="${picostart_jar}"/>
+    <pathelement path="${codeserver_common_jar}"/>
+  </path> 
+
+  <target name="lojic" depends="init">
+
+    <drjavac classpathref="lojic.class.path">
+      <files>
+        <include name="com/digitalroute/lojic/**/*.java" />
+		<include name="com/digitalroute/lojic/**/*.clj" />
+      </files>
+    </drjavac>
+
+    <drjar jarfile="${lojic_jar}">
+      <files>
+        <fileset dir="${build}">
+          <include name="com/digitalroute/lojic/**/*.class" />
+		<include name="com/digitalroute/lojic/**/*.clj" />
+        </fileset>
+        <fileset dir="${src}">
+          <include name="com/digitalroute/lojic/**/*.svg" />
+          <include name="com/digitalroute/lojic/**/*.properties" />
+        </fileset>
+      </files>
+    </drjar>
+  </target>
+
+  <target name="package" depends="lojic, install">
+    <makepackage name="${package.name}">
+      <fileargs>
+        <pathelement path="${lojic_jar}|execution|encrypted" />
+      </fileargs>
+      <installjars>
+        <pathelement path="${installation_jar}" />
+        <pathelement path="${installer_jar}" />
+      </installjars>
+    </makepackage>
+  </target>
+
+  <target name="findbugs">
+    <drfindbugs auxpathid="findbugs.class.path" format="${findbugs.format}">
+        <jars>
+            <class location="${lojic_jar}" />
+        </jars>
+    </drfindbugs>
+  </target>
+
+  <target name="test" depends="compile">
+    <compileandruntest module="lojic" classpathref="findbugs.class.path" />
+  </target>
+</project>
