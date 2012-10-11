@@ -6,6 +6,8 @@
   
 	<path id="lojic.class.path">
 		<path refid="package.class.path" />
+		<pathelement path="deps/clojure-1.4.0/clojure-1.4.0.jar"/>
+		<pathelement path="deps/clooj-0.3.11-standalone.jar"/>
 		<pathelement path="${server_jar}" />
 		<pathelement path="${client_jar}" />
 		<pathelement path="${picostart_jar}" />
@@ -19,8 +21,11 @@
 
   <target name="lojic" depends="init">
 
-    <drjavac classpathref="lojic.class.path">
+	<cc-gen file="${cfg}/lojic-cc.xml" outdir="${build}" />
+    
+	<drjavac classpathref="lojic.class.path">
       <files>
+		<include name="../build/com/digitalroute/lojic/LojicData.java" />
         <include name="com/digitalroute/lojic/**/*.java" />
 		<include name="com/digitalroute/lojic/**/*.clj" />
       </files>
@@ -29,10 +34,10 @@
     <drjar jarfile="${lojic_jar}">
       <files>
         <fileset dir="${build}">
-          <include name="com/digitalroute/lojic/**/*.class" />
-		<include name="com/digitalroute/lojic/**/*.clj" />
+          	<include name="com/digitalroute/lojic/**/*.class" />			
         </fileset>
         <fileset dir="${src}">
+			<include name="com/digitalroute/lojic/**/*.clj" />
           <include name="com/digitalroute/lojic/**/*.svg" />
           <include name="com/digitalroute/lojic/**/*.properties" />
         </fileset>
@@ -44,6 +49,8 @@
     <makepackage name="${package.name}">
       <fileargs>
         <pathelement path="${lojic_jar}|execution|encrypted" />
+		<pathelement path="deps/clojure-1.4.0/clojure-1.4.0.jar"/>
+		<pathelement path="deps/clooj-0.3.11-standalone.jar"/>
       </fileargs>
       <installjars>
         <pathelement path="${installation_jar}" />
